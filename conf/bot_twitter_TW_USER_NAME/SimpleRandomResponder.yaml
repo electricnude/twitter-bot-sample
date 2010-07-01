@@ -1,0 +1,32 @@
+---
+global:
+  timezone: Asia/Tokyo
+  assets_path: __PATH_TO_PLAGGER_APP__/plagger_plugin/plagger/assets
+  plugin_path:
+    - __PATH_TO_PLAGGER_APP__/plagger_plugin/plagger/lib/Plagger/Plugin
+  log:
+    level: info
+  cache:
+    base: __PATH_TO_PLAGGER_APP__/bot/data/cache
+
+plugins:
+  - module: Subscription::Config
+    config:
+      feed:
+        - script:__PATH_TO_PLAGGER_APP__/bot/bin/aggregate_simple_random.pl
+  - module: CustomFeed::Script
+
+  - module: Publish::TwitterOauth
+    config:
+      traits:
+        - 'API::REST'
+        - OAuth
+      consumer_key: __OAUTH_CONSUMER_KEY__
+      consumer_secret: __OAUTH_CONSUMER_SECRET_KEY__
+      auth_pin_code: __OAUTH_PIN_CODE__
+      auth_accs_token: __OAUTH_ACCESS_TOKEN__
+      auth_accs_tkn_s: __OAUTH_ACCESS_TOKEN_SECRET__
+      client_name: __BOT_NAME_FOR_TWITTER__
+      interval: 1
+      realsend: 1
+

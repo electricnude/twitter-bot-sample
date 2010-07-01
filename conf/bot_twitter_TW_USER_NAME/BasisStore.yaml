@@ -1,0 +1,45 @@
+---
+info:
+  memo:
+    - misc:
+      url: http://d.hatena.ne.jp/itog/20090613/1244905238
+      type:
+        - WhatResponder:
+          desc: inputに「って何？」を付加しただけの返答を返します。
+        - RondomResponder:
+          desc: 定型文を返します。
+        - PatternResponder:
+          desc: あるキーワードがあれば、それに対応した文を返します。一つのキーワードに対して複数の文章を保持します。
+        - TemplateResponder:
+          desc: 「○○は××です」というようなテンプレートを持ち、名詞を当てはめていきま
+        - MarkovResponder:
+          desc: 単語のつながりを基にした「マルコフモデル」をもとに、文章を組み合わせて新たに作り出します。
+        - GoogleResponder:
+          desc: ユーザのインプットからキーワードを抜き出し、そのキーワードでGoogle検索をかけ、ヒットしたページから文章を抜き出し、マルコフモデルで文章を生成して返します。
+
+global:
+  timezone: Asia/Tokyo
+  assets_path: __PATH_TO_PLAGGER_APP__/plagger_plugin/plagger/assets
+  plugin_path:
+    - __PATH_TO_PLAGGER_APP__/plagger_plugin/plagger/lib/Plagger/Plugin
+  log:
+    level: info
+  cache:
+    base: __PATH_TO_PLAGGER_APP__/bot/data/cache
+
+plugins:
+  - module: Subscription::Config
+    config:
+      feed:
+        - url: http://feeds.feedburner.com/hatena/b/hotentry
+        - url: http://anond.hatelabo.jp/rss
+        - url: http://blog.livedoor.com/xml/recent_articles.rdf
+
+  - module: Filter::EntryFullText
+# - module: Filter::BreakEntriesToFeeds
+
+  - module: Publish::OutlineTextMore
+    config:
+      filename: __PATH_TO_PLAGGER_APP__/bot/data/cache/recent/_recent_basis.txt
+      encoding: utf8
+
